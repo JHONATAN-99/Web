@@ -1,33 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>To Do List</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
-</head>
-
-<body>
+  <body>
     <h2>To Do List</h2>
+
     <div class="contenedor">
-        <section class="add">
+      <div class="add">
+        <input type="text" id="inputTarea" />
+        <center><button id="botonAgregar">Agregar</button></center>
+      </div>
 
-            <h3>Nueva tarea</h3>
-            </p>
-            <input type="text" id="inputTarea">
-            <button onclick="agregarTarea()"> Agregar </button>
-            
-        </section>
-        <section class="list">
-            <h3>Lista de Tareas</h3>
-            <div class="tarea">
-                <div id="tareasAgregadas"></div>
-            </div>
-        </section>
-
+      <div class="list">
+        <div id="tareasAgregadas"></div>
+      </div>
     </div>
-    <script src="event.js"></script>
-</body>
 
+    <script src="event.js"></script>
+  </body>
 </html>

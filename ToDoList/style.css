@@ -1,40 +1,48 @@
-body{
-    background-color: #68768a;
+body {
+    background-color: #688a77;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 20px;
     padding: 0;
 }
 
-.contenedor{
+.contenedor {
     display: flex;
-    gap : 40px;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
 }
 
-.add{
+.add, .list {
     width: 300px;
     border: 1px solid black;
     border-radius: 10px;
+    padding: 25px;
+    background-color: white;
 }
 
-.tarea{
-    margin-top: 10px;
-    padding: 10px;
-    border-bottom: 1px solid black;
+.tarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    margin-top: 8px;
+    border-bottom: 1px solid rgb(194, 173, 173);
+    padding: 5px;
 }
 
-input{
+input {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
 }
 
-button{
+button {
     cursor: pointer;
     padding: 8px 12px;
-}
+    background-color: rgb(42, 124, 105);
+    border-color: none;
+    border-radius: 5px;
+    color: white;
 
-.list{
-    display: none;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
 }
