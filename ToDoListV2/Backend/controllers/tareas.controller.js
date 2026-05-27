@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 
 const Tarea = require("../models/Tarea");
+const mongoose = require("mongoose");
 
 const obtenerTareas = async (req, res) => {
   try {
@@ -64,6 +65,13 @@ const obtenerTareas = async (req, res) => {
 
 const obtenerTareaPorId = async (req, res) => {
   try {
+    // Validar ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     const tarea = await Tarea.findById(req.params.id);
 
     if (!tarea) {
@@ -122,6 +130,13 @@ const crearTarea = async (req, res) => {
 
 const editarTarea = async (req, res) => {
   try {
+    // Validar ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     const tarea = await Tarea.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -150,6 +165,13 @@ const editarTarea = async (req, res) => {
 
 const eliminarTarea = async (req, res) => {
   try {
+    // Validar ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     const tarea = await Tarea.findByIdAndDelete(req.params.id);
 
     if (!tarea) {
