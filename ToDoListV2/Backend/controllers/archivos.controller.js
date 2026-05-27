@@ -106,7 +106,39 @@ const obtenerArchivos = async (req, res) => {
   }
 };
 
+const descargarArchivo = async (req, res) => {
+  try {
+    const { archivoId } = req.params;
+
+    // validar id
+    if (!mongoose.Types.ObjectId.isValid(archivoId)) {
+      return res.status(400).json({
+        message: "ID de archivo inválido",
+      });
+    }
+
+    const archivo = await Archivo.findById(archivoId);
+
+    if (!archivo) {
+      return res.status(404).json({
+        message: "Archivo no encontrado",
+      });
+    }
+
+    res.download(
+      archivo.ruta,
+      archivo.nombreOriginal
+    );
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al descargar archivo",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   subirArchivo,
   obtenerArchivos,
+  descargarArchivo,
 };

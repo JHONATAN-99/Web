@@ -17,4 +17,9 @@ router.post(
 
 router.get("/:id/archivos", obtenerArchivos);
 
+router.get(
+  "/:id/archivos/:archivoId/download",
+  descargarArchivo
+);
+
 module.exports = router;
