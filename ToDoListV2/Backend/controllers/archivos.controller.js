@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 const Archivo = require("../models/Archivo");
 
@@ -137,8 +138,42 @@ const descargarArchivo = async (req, res) => {
   }
 };
 
+const eliminarArchivo = async (req, res) => {
+  try {
+    const { archivoId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(archivoId)) {
+      return res.status(400).json({
+        message: "ID de archivo invalido",
+      });
+    }
+
+    const archivo = await Archivo.findByIdAndDelete(archivoId);
+
+    if (!archivo) {
+      return res.status(404).json({
+        message: "Archivo no encontrado",
+      });
+    }
+
+    fs.unlink(archivo.ruta, (error) => {
+      if (error && error.code !== "ENOENT") {
+        console.log(error);
+      }
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al eliminar archivo",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   subirArchivo,
   obtenerArchivos,
   descargarArchivo,
+  eliminarArchivo,
 };
