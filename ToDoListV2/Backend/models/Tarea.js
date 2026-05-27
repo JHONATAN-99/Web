@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 
-const tareaSchema = new mongoose.Schema({
-  texto: {
-    type: String,
-    required: true,
-  },
+const tareaSchema = new mongoose.Schema(
+  {
+    texto: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  check: {
-    type: Boolean,
-    default: false,
+    check: {
+      type: Boolean,
+      default: false,
+    },
   },
-
-  fecha: {
-    type: String,
-    default: () => new Date().toLocaleString(),
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("Tarea", tareaSchema);
