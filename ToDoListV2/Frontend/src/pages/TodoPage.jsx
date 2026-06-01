@@ -20,23 +20,29 @@ function TodoPage() {
   }, []);
 
   const cargarTareas = async () => {
-    const data = await obtenerTareas();
+    const response =
+      await obtenerTareas();
 
-    setTareas(data);
+    setTareas(response.data);
   };
 
   const agregar = async (texto) => {
     const nueva =
       await crearTarea(texto);
 
-    setTareas([...tareas, nueva]);
+    setTareas([
+      nueva.data,
+      ...tareas,
+    ]);
   };
 
   const eliminar = async (id) => {
     await eliminarTarea(id);
 
     setTareas(
-      tareas.filter((t) => t._id !== id)
+      tareas.filter(
+        (t) => t._id !== id
+      )
     );
   };
 
@@ -45,11 +51,16 @@ function TodoPage() {
     nuevoTexto
   ) => {
     const actualizada =
-      await editarTarea(id, nuevoTexto);
+      await editarTarea(
+        id,
+        nuevoTexto
+      );
 
     setTareas(
       tareas.map((t) =>
-        t._id === id ? actualizada : t
+        t._id === id
+          ? actualizada.data
+          : t
       )
     );
   };
@@ -58,7 +69,9 @@ function TodoPage() {
     <div className="todo-container">
       <h1>To Do List</h1>
 
-      <TaskForm onAgregar={agregar} />
+      <TaskForm
+        onAgregar={agregar}
+      />
 
       <TaskList
         tareas={tareas}
