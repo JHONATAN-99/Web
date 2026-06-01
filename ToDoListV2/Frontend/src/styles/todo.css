@@ -125,3 +125,62 @@
   .delete:hover {
     background-color: #77364c;
   }
+
+  .files {
+  background-color: #221d34;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(
+    0,
+    0,
+    0,
+    0.5
+  );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 600px;
+  max-height: 80vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 16px;
+}
+
+.files-list {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px;
+
+  background: #f2f2f2;
+
+  border-radius: 10px;
+}
+
