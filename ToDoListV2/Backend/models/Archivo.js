@@ -2,12 +2,6 @@ const mongoose = require("mongoose");
 
 const archivoSchema = new mongoose.Schema(
   {
-    tarea: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Tarea",
-      required: true,
-    },
-
     nombreOriginal: {
       type: String,
       required: true,

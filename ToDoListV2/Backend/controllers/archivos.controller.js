@@ -3,29 +3,8 @@ const fs = require("fs");
 
 const Archivo = require("../models/Archivo");
 
-const Tarea = require("../models/Tarea");
-
 const subirArchivo = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    // validar id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "ID inválido",
-      });
-    }
-
-    // verificar tarea
-    const tarea = await Tarea.findById(id);
-
-    if (!tarea) {
-      return res.status(404).json({
-        message: "Tarea no encontrada",
-      });
-    }
-
-    // verificar archivo
     if (!req.file) {
       return res.status(400).json({
         message: "No se envió archivo",
@@ -33,22 +12,15 @@ const subirArchivo = async (req, res) => {
     }
 
     const archivo = await Archivo.create({
-      tarea: tarea._id,
-
       nombreOriginal: req.file.originalname,
-
       nombreGuardado: req.file.filename,
-
       tipo: req.file.mimetype,
-
       tamano: req.file.size,
-
       ruta: req.file.path,
     });
 
     res.status(201).json({
       data: archivo,
-
       message: "Archivo subido correctamente",
     });
   } catch (error) {
@@ -61,34 +33,16 @@ const subirArchivo = async (req, res) => {
 
 const obtenerArchivos = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    // validar id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        message: "ID inválido",
-      });
-    }
-
-    // verificar tarea
-    const tarea = await Tarea.findById(id);
-
-    if (!tarea) {
-      return res.status(404).json({
-        message: "Tarea no encontrada",
-      });
-    }
-
-    const archivos = await Archivo.find({
-      tarea: id,
+    const archivos = await Archivo.find().sort({
+      createdAt: -1,
     });
 
     const data = archivos.map((archivo) => ({
       ...archivo.toObject(),
 
       links: {
-        download: `/api/tareas/${id}/archivos/${archivo._id}/download`,
-        delete: `/api/tareas/${id}/archivos/${archivo._id}`,
+        download: `/api/archivos/${archivo._id}/download`,
+        delete: `/api/archivos/${archivo._id}`,
       },
     }));
 
@@ -171,9 +125,45 @@ const eliminarArchivo = async (req, res) => {
   }
 };
 
+const editarArchivo = async (req, res) => {
+  try {
+    const { archivoId } = req.params;
+    const { nombreOriginal } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(archivoId)) {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
+    const archivo = await Archivo.findByIdAndUpdate(
+      archivoId,
+      { nombreOriginal },
+      { new: true }
+    );
+
+    if (!archivo) {
+      return res.status(404).json({
+        message: "Archivo no encontrado",
+      });
+    }
+
+    res.status(200).json({
+      data: archivo,
+      message: "Archivo renombrado correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al editar archivo",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   subirArchivo,
   obtenerArchivos,
   descargarArchivo,
   eliminarArchivo,
+  editarArchivo,
 };

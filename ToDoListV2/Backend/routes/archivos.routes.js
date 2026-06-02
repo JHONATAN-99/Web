@@ -9,24 +9,27 @@ const {
   obtenerArchivos,
   descargarArchivo,
   eliminarArchivo,
+  editarArchivo,
 } = require("../controllers/archivos.controller");
 
 router.post(
-  "/:id/archivos",
+  "/",
   upload.single("archivo"),
   subirArchivo
 );
 
-router.get("/:id/archivos", obtenerArchivos);
+router.get("/", obtenerArchivos);
 
 router.get(
-  "/:id/archivos/:archivoId/download",
+  "/:archivoId/download",
   descargarArchivo
 );
 
 router.delete(
-  "/:id/archivos/:archivoId",
+  "/:archivoId",
   eliminarArchivo
 );
+
+router.patch("/:archivoId", editarArchivo);
 
 module.exports = router;
