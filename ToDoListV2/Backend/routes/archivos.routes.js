@@ -10,6 +10,7 @@ const {
   descargarArchivo,
   eliminarArchivo,
   editarArchivo,
+  reemplazarArchivo,
 } = require("../controllers/archivos.controller");
 
 router.post(
@@ -31,5 +32,11 @@ router.delete(
 );
 
 router.patch("/:archivoId", editarArchivo);
+
+router.put(
+  "/:archivoId",
+  upload.single("archivo"),
+  reemplazarArchivo
+);
 
 module.exports = router;

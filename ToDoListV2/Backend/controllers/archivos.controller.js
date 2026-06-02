@@ -160,10 +160,55 @@ const editarArchivo = async (req, res) => {
   }
 };
 
+const reemplazarArchivo = async (req, res) => {
+  try {
+    const { archivoId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(archivoId)) {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
+    const archivo = await Archivo.findById(archivoId);
+
+    if (!archivo) {
+      return res.status(404).json({
+        message: "Archivo no encontrado",
+      });
+    }
+
+    // borrar archivo viejo
+    if (fs.existsSync(archivo.ruta)) {
+      fs.unlinkSync(archivo.ruta);
+    }
+
+    // actualizar datos
+    archivo.nombreOriginal = req.file.originalname;
+    archivo.nombreGuardado = req.file.filename;
+    archivo.tipo = req.file.mimetype;
+    archivo.tamano = req.file.size;
+    archivo.ruta = req.file.path;
+
+    await archivo.save();
+
+    res.status(200).json({
+      data: archivo,
+      message: "Archivo reemplazado correctamente",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al reemplazar archivo",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   subirArchivo,
   obtenerArchivos,
   descargarArchivo,
   eliminarArchivo,
   editarArchivo,
+  reemplazarArchivo,
 };
