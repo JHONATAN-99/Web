@@ -16,6 +16,8 @@ router.get("/:id", obtenerTareaPorId);
 
 router.post("/", crearTarea);
 
+router.put("/:id", editarTarea);
+
 router.patch("/:id", editarTarea);
 
 router.delete("/:id", eliminarTarea);
