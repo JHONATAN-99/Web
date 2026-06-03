@@ -1,8 +1,7 @@
 const crypto = require("crypto");
-const fs = require("fs");
+
 
 const Tarea = require("../models/Tarea");
-const Archivo = require("../models/Archivo");
 const mongoose = require("mongoose");
 
 const obtenerTareas = async (req, res) => {
@@ -39,7 +38,6 @@ const obtenerTareas = async (req, res) => {
         self: `/api/tareas/${tarea._id}`,
         update: `/api/tareas/${tarea._id}`,
         delete: `/api/tareas/${tarea._id}`,
-        files: `/api/tareas/${tarea._id}/archivos`,
       },
     }));
 
@@ -143,7 +141,7 @@ const editarTarea = async (req, res) => {
       req.params.id,
       req.body,
       {
-        new: true,
+        returnDocument: "after",
       }
     );
 
@@ -181,22 +179,6 @@ const eliminarTarea = async (req, res) => {
         message: "Tarea no encontrada",
       });
     }
-
-    const archivos = await Archivo.find({
-      tarea: tarea._id,
-    });
-
-    archivos.forEach((archivo) => {
-      fs.unlink(archivo.ruta, (error) => {
-        if (error && error.code !== "ENOENT") {
-          console.log(error);
-        }
-      });
-    });
-
-    await Archivo.deleteMany({
-      tarea: tarea._id,
-    });
 
     res.status(204).send();
   } catch (error) {
