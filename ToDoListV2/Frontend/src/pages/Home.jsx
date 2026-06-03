@@ -10,16 +10,14 @@ function Home() {
         <Link to="/todo" className="card">
           <h2> To Do List</h2>
 
-          <p>
-            Crea tu Lista de Tareas
-          </p>
+          <p>Crea tu Lista de Tareas</p>
         </Link>
 
-        <div className="card disabled">
-          <h2> Drive</h2>
+        <Link to="/drive" className="card">
+          <h2>Drive</h2>
 
-          <p>...</p>
-        </div>
+          <p>Gestiona tus archivos</p>
+        </Link>
       </div>
     </div>
   );
