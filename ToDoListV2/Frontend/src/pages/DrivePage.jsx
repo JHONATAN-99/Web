@@ -5,6 +5,7 @@ import {
   subirArchivo,
   eliminarArchivo,
   descargarArchivo,
+  editarArchivo,
 } from "../services/archivosApi";
 
 import DriveUpload from "../components/files/DriveUpload";
@@ -73,6 +74,34 @@ function DrivePage() {
     );
   };
 
+  const handleEdit = async (
+  archivo
+) => {
+  const nuevoNombre =
+    prompt(
+      "Nuevo nombre",
+      archivo.nombreOriginal
+    );
+
+  if (!nuevoNombre)
+    return;
+
+  try {
+    await editarArchivo(
+      archivo._id,
+      nuevoNombre
+    );
+
+    cargarArchivos();
+  } catch (error) {
+    alert(
+      error.response?.data
+        ?.message ||
+        "Error al editar archivo"
+    );
+  }
+};
+
   return (
     <div className="drive-container">
       <h1>Drive</h1>
@@ -91,6 +120,7 @@ function DrivePage() {
         onDownload={
           handleDownload
         }
+        onEdit={handleEdit}
       />
     </div>
   );

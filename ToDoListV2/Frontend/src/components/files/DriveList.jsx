@@ -4,6 +4,7 @@ function DriveList({
   archivos,
   onDelete,
   onDownload,
+  onEdit,
 }) {
   return (
     <div className="files-list">
@@ -18,6 +19,7 @@ function DriveList({
             onDownload={
               onDownload
             }
+            onEdit={onEdit}
           />
         )
       )}
