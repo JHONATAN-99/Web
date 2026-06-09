@@ -39,3 +39,12 @@ npm install axios
 # hacer correr dentro de frontend 
 cd frontend
 npm run dev
+
+
+# instalar bycript 
+npm install bcryptjs jsonwebtoken
+
+# estructura del .env
+MONGO_URI=mongodb+srv://leticia:123456789@cluster0.yyyyy.mongodb.net/todolist?appName=Cluster0
+
+JWT_SECRET=jwt secreto
