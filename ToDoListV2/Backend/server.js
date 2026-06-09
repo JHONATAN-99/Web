@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const tareasRoutes = require("./routes/tareas.routes");
 const archivosRoutes = require("./routes/archivos.routes");
+const authRoutes = require("./routes/auth.routes");
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
@@ -28,6 +29,7 @@ mongoose
 // Rutas
 app.use("/api/tareas", tareasRoutes);
 app.use("/api/archivos", archivosRoutes);
+app.use("/api/auth", authRoutes);
 
 // Puerto
 const PORT = process.env.PORT || 3000;
