@@ -10,6 +10,9 @@ function Login() {
     const [password, setPassword] =
         useState("");
 
+    const [showPassword, setShowPassword] =
+        useState(false);
+
     const [error, setError] =
         useState("");
 

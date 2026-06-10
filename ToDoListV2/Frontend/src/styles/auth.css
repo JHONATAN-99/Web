@@ -171,3 +171,31 @@
 .password-toggle:hover {
   opacity: 0.8;
 }
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.logout-button {
+  border: none;
+  background: #ef4444;
+  color: white;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #dc2626;
+}

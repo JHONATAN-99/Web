@@ -6,10 +6,15 @@ import "../styles/auth.css";
 function Register() {
     const [nombre, setNombre] =
         useState("");
+
     const [email, setEmail] =
         useState("");
+
     const [password, setPassword] =
         useState("");
+
+    const [showPassword, setShowPassword] =
+        useState(false);
 
     const [error, setError] =
         useState("");
