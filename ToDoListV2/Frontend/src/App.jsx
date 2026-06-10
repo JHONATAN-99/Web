@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import TodoPage from "./pages/TodoPage";
 import DrivePage from "./pages/DrivePage";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -37,6 +38,10 @@ function App() {
             <DrivePage />
           </ProtectedRoute>
         }
+      />
+      <Route
+        path="/register"
+        element={<Register />}
       />
     </Routes>
   );

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { login } from "../services/authApi";
+import { register } from "../services/authApi";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
-function Login() {
+function Register() {
+  const [nombre, setNombre] =
+    useState("");
   const [email, setEmail] =
     useState("");
-
   const [password, setPassword] =
     useState("");
 
@@ -21,27 +22,18 @@ function Login() {
     setError("");
 
     try {
-      const data = await login(
+      const data = await register(
+        nombre,
         email,
         password
       );
 
-      if (data.token) {
-        localStorage.setItem(
-          "token",
-          data.token
-        );
-
-        localStorage.setItem(
-          "usuario",
-          JSON.stringify(data.usuario)
-        );
-
-        navigate("/");
+      if (data.usuario) {
+        navigate("/login");
       } else {
         setError(
           data.message ||
-            "Credenciales inválidas"
+            "Error al registrarse"
         );
       }
     } catch {
@@ -55,11 +47,11 @@ function Login() {
     <div className="auth-container">
       <div className="auth-card">
         <h1 className="auth-title">
-          Bienvenido
+          Crear Cuenta
         </h1>
 
         <p className="auth-subtitle">
-          Inicia sesión para continuar
+          Regístrate para comenzar
         </p>
 
         {error && (
@@ -74,11 +66,26 @@ function Login() {
         >
           <input
             className="auth-input"
+            type="text"
+            placeholder="Nombre completo"
+            value={nombre}
+            onChange={(e) =>
+              setNombre(
+                e.target.value
+              )
+            }
+            required
+          />
+
+          <input
+            className="auth-input"
             type="email"
             placeholder="Correo electrónico"
             value={email}
             onChange={(e) =>
-              setEmail(e.target.value)
+              setEmail(
+                e.target.value
+              )
             }
             required
           />
@@ -100,22 +107,22 @@ function Login() {
             className="auth-button"
             type="submit"
           >
-            Ingresar
+            Registrarse
           </button>
         </form>
 
         <p className="auth-link">
-          ¿No tienes cuenta?{" "}
+          ¿Ya tienes cuenta?{" "}
           <span
             onClick={() =>
-              navigate("/register")
+              navigate("/login")
             }
             style={{
               cursor: "pointer",
               fontWeight: 600,
             }}
           >
-            Registrarse
+            Iniciar sesión
           </span>
         </p>
       </div>
@@ -123,4 +130,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
