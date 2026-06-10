@@ -26,6 +26,17 @@ function Register() {
 
         setError("");
 
+        const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+        if (!passwordRegex.test(password)) {
+            setError(
+                "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número."
+            );
+
+            return;
+        }
+
         try {
             const data = await register(
                 nombre,
@@ -106,8 +117,11 @@ function Register() {
                             placeholder="Contraseña"
                             value={password}
                             onChange={(e) =>
-                                setPassword(e.target.value)
+                                setPassword(
+                                    e.target.value
+                                )
                             }
+                            required
                         />
 
                         <button
@@ -124,6 +138,12 @@ function Register() {
                                 : "Mostrar"}
                         </button>
                     </div>
+
+                    <small className="password-help">
+                        Mínimo 8 caracteres,
+                        una mayúscula, una
+                        minúscula y un número.
+                    </small>
 
                     <button
                         className="auth-button"
