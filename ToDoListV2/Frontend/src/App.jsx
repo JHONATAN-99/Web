@@ -3,15 +3,41 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import TodoPage from "./pages/TodoPage";
 import DrivePage from "./pages/DrivePage";
+import Login from "./pages/Login";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
 
-      <Route path="/todo" element={<TodoPage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/drive" element={<DrivePage />} />
+      <Route
+        path="/todo"
+        element={
+          <ProtectedRoute>
+            <TodoPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/drive"
+        element={
+          <ProtectedRoute>
+            <DrivePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
