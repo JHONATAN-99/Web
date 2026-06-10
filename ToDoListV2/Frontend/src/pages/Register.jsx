@@ -4,130 +4,147 @@ import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 
 function Register() {
-  const [nombre, setNombre] =
-    useState("");
-  const [email, setEmail] =
-    useState("");
-  const [password, setPassword] =
-    useState("");
+    const [nombre, setNombre] =
+        useState("");
+    const [email, setEmail] =
+        useState("");
+    const [password, setPassword] =
+        useState("");
 
-  const [error, setError] =
-    useState("");
+    const [error, setError] =
+        useState("");
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    setError("");
+        setError("");
 
-    try {
-      const data = await register(
-        nombre,
-        email,
-        password
-      );
+        try {
+            const data = await register(
+                nombre,
+                email,
+                password
+            );
 
-      if (data.usuario) {
-        navigate("/login");
-      } else {
-        setError(
-          data.message ||
-            "Error al registrarse"
-        );
-      }
-    } catch {
-      setError(
-        "Error de conexión con el servidor"
-      );
-    }
-  };
-
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">
-          Crear Cuenta
-        </h1>
-
-        <p className="auth-subtitle">
-          Regístrate para comenzar
-        </p>
-
-        {error && (
-          <div className="auth-error">
-            {error}
-          </div>
-        )}
-
-        <form
-          className="auth-form"
-          onSubmit={handleSubmit}
-        >
-          <input
-            className="auth-input"
-            type="text"
-            placeholder="Nombre completo"
-            value={nombre}
-            onChange={(e) =>
-              setNombre(
-                e.target.value
-              )
+            if (data.usuario) {
+                navigate("/login");
+            } else {
+                setError(
+                    data.message ||
+                    "Error al registrarse"
+                );
             }
-            required
-          />
+        } catch {
+            setError(
+                "Error de conexión con el servidor"
+            );
+        }
+    };
 
-          <input
-            className="auth-input"
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            required
-          />
+    return (
+        <div className="auth-container">
+            <div className="auth-card">
+                <h1 className="auth-title">
+                    Crear Cuenta
+                </h1>
 
-          <input
-            className="auth-input"
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            required
-          />
+                <p className="auth-subtitle">
+                    Regístrate para comenzar
+                </p>
 
-          <button
-            className="auth-button"
-            type="submit"
-          >
-            Registrarse
-          </button>
-        </form>
+                {error && (
+                    <div className="auth-error">
+                        {error}
+                    </div>
+                )}
 
-        <p className="auth-link">
-          ¿Ya tienes cuenta?{" "}
-          <span
-            onClick={() =>
-              navigate("/login")
-            }
-            style={{
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            Iniciar sesión
-          </span>
-        </p>
-      </div>
-    </div>
-  );
+                <form
+                    className="auth-form"
+                    onSubmit={handleSubmit}
+                >
+                    <input
+                        className="auth-input"
+                        type="text"
+                        placeholder="Nombre completo"
+                        value={nombre}
+                        onChange={(e) =>
+                            setNombre(
+                                e.target.value
+                            )
+                        }
+                        required
+                    />
+
+                    <input
+                        className="auth-input"
+                        type="email"
+                        placeholder="Correo electrónico"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(
+                                e.target.value
+                            )
+                        }
+                        required
+                    />
+
+                    <div className="password-container">
+                        <input
+                            className="auth-input"
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
+                            placeholder="Contraseña"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                        />
+
+                        <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() =>
+                                setShowPassword(
+                                    !showPassword
+                                )
+                            }
+                        >
+                            {showPassword
+                                ? "Ocultar"
+                                : "Mostrar"}
+                        </button>
+                    </div>
+
+                    <button
+                        className="auth-button"
+                        type="submit"
+                    >
+                        Registrarse
+                    </button>
+                </form>
+
+                <p className="auth-link">
+                    ¿Ya tienes cuenta?{" "}
+                    <span
+                        onClick={() =>
+                            navigate("/login")
+                        }
+                        style={{
+                            cursor: "pointer",
+                            fontWeight: 600,
+                        }}
+                    >
+                        Iniciar sesión
+                    </span>
+                </p>
+            </div>
+        </div>
+    );
 }
 
 export default Register;

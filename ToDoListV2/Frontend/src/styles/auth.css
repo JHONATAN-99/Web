@@ -141,3 +141,33 @@
     font-size: 24px;
   }
 }
+
+.password-container {
+  position: relative;
+}
+
+.password-container .auth-input {
+  padding-right: 90px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #2563eb;
+}
+
+.password-toggle:hover {
+  opacity: 0.8;
+}
