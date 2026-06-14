@@ -12,12 +12,6 @@ const tareaSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
-    usuario: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Usuario",
-      required: true,
-    },
   },
   {
     timestamps: true,

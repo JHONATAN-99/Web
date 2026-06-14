@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 
+
 const Tarea = require("../models/Tarea");
 const mongoose = require("mongoose");
 
@@ -10,16 +11,12 @@ const obtenerTareas = async (req, res) => {
 
     const skip = (page - 1) * limit;
 
-    const tareas = await Tarea.find({
-      usuario: req.usuario.id,
-    })
+    const tareas = await Tarea.find()
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
 
-      const total = await Tarea.countDocuments({
-        usuario: req.usuario.id,
-      });
+    const total = await Tarea.countDocuments();
 
     // ETag
     const etag = crypto
@@ -75,10 +72,7 @@ const obtenerTareaPorId = async (req, res) => {
       });
     }
 
-    const tarea = await Tarea.findOne({
-      _id: req.params.id,
-      usuario: req.usuario.id,
-    });
+    const tarea = await Tarea.findById(req.params.id);
 
     if (!tarea) {
       return res.status(404).json({
@@ -115,7 +109,6 @@ const crearTarea = async (req, res) => {
 
     const nuevaTarea = await Tarea.create({
       texto,
-      usuario: req.usuario.id,
     });
 
     res.status(201).json({
@@ -144,14 +137,11 @@ const editarTarea = async (req, res) => {
       });
     }
 
-    const tarea = await Tarea.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        usuario: req.usuario.id,
-      },
+    const tarea = await Tarea.findByIdAndUpdate(
+      req.params.id,
       req.body,
       {
-        new: true,
+        returnDocument: "after",
       }
     );
 
@@ -182,10 +172,7 @@ const eliminarTarea = async (req, res) => {
       });
     }
 
-    const tarea = await Tarea.findOneAndDelete({
-      _id: req.params.id,
-      usuario: req.usuario.id,
-    });
+    const tarea = await Tarea.findByIdAndDelete(req.params.id);
 
     if (!tarea) {
       return res.status(404).json({

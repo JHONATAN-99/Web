@@ -17,7 +17,6 @@ const subirArchivo = async (req, res) => {
       tipo: req.file.mimetype,
       tamano: req.file.size,
       ruta: req.file.path,
-      usuario: req.usuario.id,
     });
 
     res.status(201).json({
@@ -34,9 +33,7 @@ const subirArchivo = async (req, res) => {
 
 const obtenerArchivos = async (req, res) => {
   try {
-    const archivos = await Archivo.find({
-      usuario: req.usuario.id,
-    }).sort({
+    const archivos = await Archivo.find().sort({
       createdAt: -1,
     });
 
@@ -75,10 +72,7 @@ const descargarArchivo = async (req, res) => {
       });
     }
 
-    const archivo = await Archivo.findOne({
-      _id: archivoId,
-      usuario: req.usuario.id,
-    });
+    const archivo = await Archivo.findById(archivoId);
 
     if (!archivo) {
       return res.status(404).json({
@@ -108,10 +102,7 @@ const eliminarArchivo = async (req, res) => {
       });
     }
 
-    const archivo = await Archivo.findOneAndDelete({
-      _id: archivoId,
-      usuario: req.usuario.id,
-    });
+    const archivo = await Archivo.findByIdAndDelete(archivoId);
 
     if (!archivo) {
       return res.status(404).json({
@@ -145,17 +136,10 @@ const editarArchivo = async (req, res) => {
       });
     }
 
-    const archivo = await Archivo.findOneAndUpdate(
-      {
-        _id: archivoId,
-        usuario: req.usuario.id,
-      },
-      {
-        nombreOriginal,
-      },
-      {
-        new: true,
-      }
+    const archivo = await Archivo.findByIdAndUpdate(
+      archivoId,
+      { nombreOriginal },
+      { new: true }
     );
 
     if (!archivo) {
@@ -186,10 +170,7 @@ const reemplazarArchivo = async (req, res) => {
       });
     }
 
-    const archivo = await Archivo.findOne({
-      _id: archivoId,
-      usuario: req.usuario.id,
-    });
+    const archivo = await Archivo.findById(archivoId);
 
     if (!archivo) {
       return res.status(404).json({

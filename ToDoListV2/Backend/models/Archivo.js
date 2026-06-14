@@ -26,12 +26,6 @@ const archivoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-    usuario: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Usuario",
-      required: true,
-    },
   },
   {
     timestamps: true,
