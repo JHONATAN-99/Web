@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const auth = require("../middlewares/auth");
+
 const {
   obtenerTareas,
   obtenerTareaPorId,
@@ -9,6 +11,9 @@ const {
   editarTarea,
   eliminarTarea,
 } = require("../controllers/tareas.controller");
+
+// Todas las rutas requieren autenticación
+router.use(auth);
 
 router.get("/", obtenerTareas);
 
