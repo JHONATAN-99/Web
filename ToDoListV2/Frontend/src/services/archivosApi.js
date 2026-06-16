@@ -1,35 +1,75 @@
-import axios from "axios";
-
-const API = "http://localhost:3000/api/archivos";
+import api from "./api";
 
 export const obtenerArchivos = async () => {
-  const res = await axios.get(API);
+  const res = await api.get(
+    "/archivos"
+  );
 
   return res.data;
 };
 
-export const subirArchivo = async (archivo) => {
+export const subirArchivo = async (
+  archivo
+) => {
   const formData = new FormData();
 
-  formData.append("archivo", archivo);
+  formData.append(
+    "archivo",
+    archivo
+  );
 
-  const res = await axios.post(API, formData);
+  const res = await api.post(
+    "/archivos",
+    formData
+  );
+
+  return res.data;
+};
+
+export const eliminarArchivo = async (
+  id
+) => {
+  await api.delete(
+    `/archivos/${id}`
+  );
+};
+
+export const editarArchivo = async (
+  archivoId,
+  nombreOriginal
+) => {
+  const res = await api.patch(
+    `/archivos/${archivoId}`,
+    { nombreOriginal }
+  );
 
   return res.data;
 };
 
-export const eliminarArchivo = async (id) => {
-  await axios.delete(`${API}/${id}`);
-};
+export const descargarArchivo = async (id) => {
+  const response = await api.get(
+    `/archivos/${id}/download`,
+    {
+      responseType: "blob",
+    }
+  );
 
-export const descargarArchivo = (id) => {
-  window.open(`${API}/${id}/download`);
-};
+  const url = URL.createObjectURL(
+    response.data
+  );
 
-export const editarArchivo = async (archivoId, nombreOriginal) => {
-  const res = await axios.patch(`${API}/${archivoId}`, {
-    nombreOriginal,
-  });
+  const a =
+    document.createElement("a");
 
-  return res.data;
+  a.href = url;
+
+  a.download = "archivo";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
 };
