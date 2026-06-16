@@ -1,25 +1,31 @@
-import axios from "axios";
-
-const API = "http://localhost:3000/api/tareas";
+import api from "./api";
 
 export const obtenerTareas = async () => {
-  const res = await axios.get(API);
+  const res = await api.get("/tareas");
   return res.data;
 };
 
 export const crearTarea = async (texto) => {
-  const res = await axios.post(API, { texto });
+  const res = await api.post(
+    "/tareas",
+    { texto }
+  );
+
   return res.data;
 };
 
 export const eliminarTarea = async (id) => {
-  await axios.delete(`${API}/${id}`);
+  await api.delete(`/tareas/${id}`);
 };
 
-export const editarTarea = async (id, texto) => {
-  const res = await axios.patch(`${API}/${id}`, {
-    texto,
-  });
+export const editarTarea = async (
+  id,
+  texto
+) => {
+  const res = await api.patch(
+    `/tareas/${id}`,
+    { texto }
+  );
 
   return res.data;
 };
