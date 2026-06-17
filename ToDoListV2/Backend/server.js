@@ -17,10 +17,9 @@ const app = express();
 // 🛠️ MIDDLEWARES (ACTUALIZADO PARA PRODUCCIÓN)
 // ==========================================
 const whitelist = [
-  "http://localhost:5173", // URL típica si usas Vite localmente
-  "http://localhost:3000", // URL típica si usas Create React App localmente
-  // 👇 AQUÍ PEGURÁS LA URL QUE TE DE VERCEL CUANDO DESPLIEGUES EL FRONTEND:
-  "https://tu-app-frontend.vercel.app" 
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://web-gh4h6omqd-jhonatans-projects-ddc68f25.vercel.app",
 ];
 
 app.use(cors({
