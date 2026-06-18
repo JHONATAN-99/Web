@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dns = require("dns");
+const https = require("https");
+const fs = require("fs");
 
 require("dotenv").config();
 
@@ -13,29 +15,27 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
 
-// ==========================================
-// 🛠️ MIDDLEWARES (ACTUALIZADO PARA PRODUCCIÓN)
-// ==========================================
 const whitelist = [
-  "http://localhost:5173", // URL típica si usas Vite localmente
-  "http://localhost:3000", // URL típica si usas Create React App localmente
-  // 👇 AQUÍ PEGURÁS LA URL QUE TE DE VERCEL CUANDO DESPLIEGUES EL FRONTEND:
-  "https://tu-app-frontend.vercel.app" 
+  "http://localhost:5173",
+  "https://localhost:5173",
+  "http://localhost:3000",
+  "https://tu-app-frontend.vercel.app",
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Permitir peticiones sin origen (como Postman o el propio servidor haciendo fetch)
-    if (!origin) return callback(null, true);
-    
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("No permitido por CORS"));
-    }
-  },
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("No permitido por CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 // ==========================================
@@ -54,8 +54,6 @@ app.use("/api/tareas", tareasRoutes);
 app.use("/api/archivos", archivosRoutes);
 app.use("/api/auth", authRoutes);
 
-// Puerto
-const PORT = process.env.PORT || 3000;
 
 // Manejador de errores global
 app.use((err, req, res, next) => {
@@ -68,7 +66,7 @@ app.use((err, req, res, next) => {
   // Si el error viene de CORS
   if (err.message === "No permitido por CORS") {
     return res.status(403).json({
-      message: err.message
+      message: err.message,
     });
   }
 
@@ -77,6 +75,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+const PORT = process.env.PORT || 3000;
+
+const sslOptions = {
+  key: fs.readFileSync("./key.pem"),
+  cert: fs.readFileSync("./cert.pem"),
+};
+
+https.createServer(sslOptions, app).listen(PORT, () => {
+  console.log(`Servidor HTTPS corriendo en https://localhost:${PORT}`);
 });

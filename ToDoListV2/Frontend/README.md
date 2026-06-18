@@ -1,50 +1,45 @@
-# React + Vite
+## HTTPS Setup
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Instalar mkcert.
 
-Currently, two official plugins are available:
+Generar certificados:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+mkcert localhost 127.0.0.1 ::1
+```
 
-## React Compiler
+Renombrar:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* localhost+2.pem → cert.pem
+* localhost+2-key.pem → key.pem
 
-## Expanding the ESLint configuration
+Ejecutar backend:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-# instalar en backend
-npm init -y
-
-npm install nodemon
-
-npm install express mongoose cors dotenv nodemon
-
-# hacer correr en backend 
-cd backend
+```bash
 npm run dev
+```
 
-# instalar en frontend 
+Backend disponible en:
 
-cd Frontend
+https://localhost:3000
 
-npm install
+Frontend disponible en:
 
-npm install react-router-dom
-
-npm install axios
-
-# hacer correr dentro de frontend 
-cd frontend
-npm run dev
+https://localhost:5173
 
 
-# instalar bycript 
-npm install bcryptjs jsonwebtoken
+## Variables de entorno
 
-# estructura del .env
-MONGO_URI=mongodb+srv://leticia:123456789@cluster0.yyyyy.mongodb.net/todolist?appName=Cluster0
+Crear un archivo `.env` dentro de la carpeta backend con:
 
-JWT_SECRET=jwt secreto
+```env id="3v24gx"
+MONGO_URI=tu_uri_mongodb
+JWT_SECRET=tu_clave_jwt
+```
+## Restaurar Base de Datos
+
+Ejecutar:
+
+```bash
+mongorestore ./database/dump
+```
